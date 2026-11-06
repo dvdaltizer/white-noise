@@ -15,6 +15,9 @@ class Settings(private val file: File) {
         /** The sliders as you last set them yourself. Kept when you try a ready-made sound. */
         val mine: List<Float>? = null,
         val motion: Motion = Motion.Off,
+        /** How bright the night clock is, and which way up it stands (quarter turns clockwise). */
+        val clockGlow: Int = 1,
+        val clockTurn: Int = 0,
     )
 
     val values = MutableStateFlow(read())
@@ -27,6 +30,8 @@ class Settings(private val file: File) {
             sound = p.getProperty("sound") ?: Sounds.soft.id,
             mine = parse(p.getProperty("mine")),
             motion = Motion.entries.firstOrNull { it.name == p.getProperty("motion") } ?: Motion.Off,
+            clockGlow = p.getProperty("clockGlow")?.toIntOrNull() ?: 1,
+            clockTurn = p.getProperty("clockTurn")?.toIntOrNull() ?: 0,
         )
     }
 
@@ -38,6 +43,8 @@ class Settings(private val file: File) {
         p.setProperty("sound", v.sound)
         v.mine?.let { p.setProperty("mine", it.joinToString(",")) }
         p.setProperty("motion", v.motion.name)
+        p.setProperty("clockGlow", v.clockGlow.toString())
+        p.setProperty("clockTurn", v.clockTurn.toString())
         runCatching { file.outputStream().use { p.store(it, null) } }
     }
 

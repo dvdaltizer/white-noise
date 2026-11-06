@@ -191,4 +191,19 @@ class EngineTest {
         assertTrue(!NoiseEngine.leftHeadphones(wasOn = true, type = bluetooth))
         assertTrue(!NoiseEngine.leftHeadphones(wasOn = false, type = wired))
     }
+
+    @Test fun `the night clock reads as a clock should`() {
+        assertEquals("12:05", com.slowpixels.whitenoise.ui.clockText(0, 5, is24 = false))
+        assertEquals("9:30", com.slowpixels.whitenoise.ui.clockText(9, 30, is24 = false))
+        assertEquals("12:00", com.slowpixels.whitenoise.ui.clockText(12, 0, is24 = false))
+        assertEquals("1:07", com.slowpixels.whitenoise.ui.clockText(13, 7, is24 = false))
+        assertEquals("00:05", com.slowpixels.whitenoise.ui.clockText(0, 5, is24 = true))
+        assertEquals("22:07", com.slowpixels.whitenoise.ui.clockText(22, 7, is24 = true))
+    }
+
+    @Test fun `the night clock turns round and comes back upright`() {
+        assertEquals(1, com.slowpixels.whitenoise.ui.nextTurn(0))
+        assertEquals(3, com.slowpixels.whitenoise.ui.nextTurn(1))
+        assertEquals(0, com.slowpixels.whitenoise.ui.nextTurn(3))
+    }
 }

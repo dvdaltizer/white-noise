@@ -63,7 +63,10 @@ class MixerScreen(private val sealed: SealedLightActivity) : LightScreen<Unit, M
         var touch by remember { mutableStateOf<Touch?>(null) }
         val movement = movement(ui.playing && settings.motion != Motion.Off)
         Themed {
-            LightTopBar(center = LightTopBarCenter.TwoLineDetail("White Noise", status(touch, levels, ui, settings.sound, settings.motion)))
+            LightTopBar(
+                center = LightTopBarCenter.TwoLineDetail("White Noise", status(touch, levels, ui, settings.sound, settings.motion)),
+                rightButton = LightBarButton.Icon(moonPainter(), onClick = { navigateTo(::NightClockScreen) }, contentDescription = "Night clock"),
+            )
             SliderBank(levels, shownLevels(levels, movement, touch), onTouch = { touch = it }, onMove = hub::preview, onDone = hub::commit,
                 modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 1f.gridUnitsAsDp()))
             Row(Modifier.fillMaxWidth().padding(horizontal = 1.5f.gridUnitsAsDp(), vertical = 0.25f.gridUnitsAsDp())) {
@@ -88,14 +91,19 @@ class MixerScreen(private val sealed: SealedLightActivity) : LightScreen<Unit, M
 /** Under the title: the band under your finger, why the sound stopped, or what's set. */
 @Composable
 private fun status(touch: Touch?, levels: List<Float>, ui: NoiseHub.Ui, sound: String, motion: Motion): String {
-    val left = sleepShort(ui)
+    val line = soundLine(sound, motion, ui)
     return when {
         touch is Touch.Band -> "${Bands.names[touch.index]} ${(levels[touch.index] * 100).roundToInt()}%"
         touch == Touch.All -> "All sliders"
         ui.error != null -> ui.error
-        else -> listOfNotNull(NoiseHub.soundName(sound), motion.takeIf { it != Motion.Off }?.label, left).joinToString(" · ")
+        else -> line
     }
 }
+
+/** What's set: "Soft · Waves · 45m". */
+@Composable
+internal fun soundLine(sound: String, motion: Motion, ui: NoiseHub.Ui): String =
+    listOfNotNull(NoiseHub.soundName(sound), motion.takeIf { it != Motion.Off }?.label, sleepShort(ui)).joinToString(" · ")
 
 /** Animate's movement while it runs: read twice a second, and only redrawn when it has moved. */
 @Composable
