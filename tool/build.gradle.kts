@@ -73,6 +73,16 @@ kotlin {
     }
 }
 
+// The SDK's QR scanner brings these in, and this tool doesn't use it.
+configurations.configureEach {
+    exclude(group = "com.google.mlkit")
+    exclude(group = "com.google.android.gms")
+    exclude(group = "com.google.firebase")
+    exclude(group = "com.google.android.datatransport")
+    exclude(group = "com.google.android.odml")
+    exclude(group = "androidx.camera")
+}
+
 dependencies {
     implementation(project(":sdk:client"))
     testImplementation(libs.kotlin.test)
