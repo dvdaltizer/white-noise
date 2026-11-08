@@ -79,10 +79,11 @@ class MixerScreen(private val sealed: SealedLightActivity) : LightScreen<Unit, M
                     contentDescription = if (ui.playing) "Pause" else "Play", sizeUnits = 3f),
                 LightBarButton.LightIcon(LightIcons.UP, onClick = { hub.nudgeAll(STEP) }, contentDescription = "All louder"),
             ))
+            // Icons at the sides (words wouldn't fit three across): a speaker for the sounds, a waveform for the animation.
             LightBottomBar(listOf(
-                LightBarButton.Text("SOUNDS", onClick = { navigateTo(::SoundsScreen) }),
-                LightBarButton.Text("ANIMATE", onClick = { navigateTo(::AnimateScreen) }),
+                LightBarButton.LightIcon(LightIcons.SPEAKER, onClick = { navigateTo(::SoundsScreen) }, contentDescription = "Sounds"),
                 LightBarButton.Text("SLEEP", onClick = { navigateTo(::SleepScreen) }),
+                LightBarButton.LightIcon(LightIcons.AUDIO_MESSAGE, onClick = { navigateTo(::AnimateScreen) }, contentDescription = "Animate"),
             ))
         }
     }

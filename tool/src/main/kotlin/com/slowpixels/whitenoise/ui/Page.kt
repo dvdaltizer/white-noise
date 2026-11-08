@@ -3,19 +3,16 @@ package com.slowpixels.whitenoise.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import com.thelightphone.sdk.ui.LightBarButton
-import com.thelightphone.sdk.ui.LightIcon
 import com.thelightphone.sdk.ui.LightIcons
 import com.thelightphone.sdk.ui.LightScrollView
 import com.thelightphone.sdk.ui.LightText
@@ -48,18 +45,14 @@ fun ListPage(title: String, back: () -> Unit, rows: @Composable ColumnScope.() -
     LightScrollView(Modifier.fillMaxSize().padding(horizontal = 1f.gridUnitsAsDp()), content = rows)
 }
 
-/** One choice in a list; the one in use has a tick. */
+/** One choice in a list; the one in use is underlined, as LightOS's own settings lists do. */
 @Composable
 fun Choice(label: String, selected: Boolean = false, detail: String? = null, onClick: () -> Unit) {
-    Row(
+    Column(
         Modifier.fillMaxWidth().lightClickable(onClick = onClick).semantics(mergeDescendants = true) { this.selected = selected }
             .padding(vertical = 0.75f.gridUnitsAsDp()),
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(Modifier.weight(1f)) {
-            LightText(label.uppercase(), LightTextVariant.Copy)
-            if (detail != null) LightText(detail, LightTextVariant.Fine, lighten = true)
-        }
-        if (selected) LightIcon(LightIcons.SELECT_ON, size = 1.5f, contentDescription = "Selected")
+        LightText(label.uppercase(), LightTextVariant.Copy, underline = selected)
+        if (detail != null) LightText(detail, LightTextVariant.Fine, lighten = true)
     }
 }
