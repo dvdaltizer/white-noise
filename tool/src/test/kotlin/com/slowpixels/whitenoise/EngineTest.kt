@@ -205,5 +205,6 @@ class EngineTest {
         assertEquals(1, com.slowpixels.whitenoise.ui.nextTurn(0))
         assertEquals(3, com.slowpixels.whitenoise.ui.nextTurn(1))
         assertEquals(0, com.slowpixels.whitenoise.ui.nextTurn(3))
+        assertEquals("the clock starts sideways", 1, com.slowpixels.whitenoise.play.Settings.Values().clockTurn)
     }
 }

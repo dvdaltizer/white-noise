@@ -12,7 +12,7 @@ Noise for sleep, study and quiet, for the Light Phone III. Built with the [Light
 - **Eight ready-made sounds:** Soft, Pink, Brown, Grey, White, Deep, Fan and Airy, and your own shape as Mine.
 - **Animate** moves the sliders slowly by themselves: Zen, Drift, Waves or Breathe.
 - **Sleep timer** from 15 minutes to 8 hours, with a one-minute fade at the end.
-- **Night clock** shows the time on a dark screen while the sound plays. It stays on, has five levels of brightness, and turns sideways for a phone resting on its side.
+- **Night clock** shows the time on a dark screen while the sound plays. It stays on, has five levels of brightness, and lies sideways for a phone resting on its side (a tap on Turn sets it upright).
 
 The noise is made live on the phone from a random number generator, so it never loops and never repeats.
 

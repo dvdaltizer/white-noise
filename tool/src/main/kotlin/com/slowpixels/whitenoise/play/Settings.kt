@@ -17,7 +17,7 @@ class Settings(private val file: File) {
         val motion: Motion = Motion.Off,
         /** How bright the night clock is, and which way up it stands (quarter turns clockwise). */
         val clockGlow: Int = 1,
-        val clockTurn: Int = 0,
+        val clockTurn: Int = SIDEWAYS,
     )
 
     val values = MutableStateFlow(read())
@@ -31,7 +31,7 @@ class Settings(private val file: File) {
             mine = parse(p.getProperty("mine")),
             motion = Motion.entries.firstOrNull { it.name == p.getProperty("motion") } ?: Motion.Off,
             clockGlow = p.getProperty("clockGlow")?.toIntOrNull() ?: 1,
-            clockTurn = p.getProperty("clockTurn")?.toIntOrNull() ?: 0,
+            clockTurn = p.getProperty("clockTurn")?.toIntOrNull() ?: SIDEWAYS,
         )
     }
 
@@ -50,6 +50,9 @@ class Settings(private val file: File) {
 
     companion object {
         const val MINE = "mine"
+
+        /** The night clock's default: one quarter turn, for a phone lying on its side with its buttons facing up. */
+        const val SIDEWAYS = 1
 
         private fun parse(s: String?): List<Float>? =
             s?.split(',')?.mapNotNull { it.toFloatOrNull()?.coerceIn(0f, 1f) }?.takeIf { it.size == Bands.COUNT }
